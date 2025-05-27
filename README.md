@@ -5,7 +5,8 @@ It lets you create referral campaigns, track performance, and reward your ambass
 
 > 💼 Born out of real needs while launching [Oridium](https://getoridium.com), RefSpring is now built to serve others.
 
----
+
+
 
 ## 🚀 Features
 
@@ -18,14 +19,16 @@ It lets you create referral campaigns, track performance, and reward your ambass
 - ✅ Supabase for database & auth
 - ✅ Stripe integration-ready
 
----
+
+
 
 ## 📸 Preview
 
 *Coming soon…*  
 *(Add a screenshot of your dashboard once it's styled ✨)*
 
----
+
+
 
 ## 🧱 Stack
 
@@ -34,7 +37,8 @@ It lets you create referral campaigns, track performance, and reward your ambass
 - Stripe (for payment tracking)
 - GitHub Pages or Vercel for hosting
 
----
+
+
 
 ## 🛠 Setup (Local)
 
@@ -56,13 +60,15 @@ cd refspring
 
  Open registration
 
----
+
+
 
 ## 👨‍💻 Author
 
 Made with ❤️ by antho8101
 
----
+
+
 
 ## 📄 License
 
