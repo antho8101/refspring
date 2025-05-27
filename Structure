@@ -1,0 +1,28 @@
+refspring/
+├── index.html                ← Login page
+├── dashboard.html            ← Admin dashboard
+├── affiliate.html            ← Public affiliate stats page
+
+├── css/
+│   ├── main.css              ← Global styles + components
+│   ├── login.css             ← Styles spécifiques à la page login
+│   ├── dashboard.css         ← Styles dashboard admin
+│   ├── components.css        ← Styles boutons
+│   └── affiliate.css         ← Styles affilié public
+
+├── js/
+│   ├── main.js               ← JS global (utilitaires, modales)
+│   ├── login.js              ← Connexion utilisateur
+│   ├── dashboard.js          ← Gestion dashboard admin (affichage campagnes, modales)
+│   └── affiliate.js          ← Récupération et affichage stats affilié
+
+├── modals/
+│   ├── create-campaign.html  ← Modale création campagne
+│   ├── create-affiliate.html← Modale ajout affilié
+│   └── send-link.html        ← Modale envoi du lien
+
+├── assets/
+│   └── logo.svg              ← Logo RefSpring
+
+└── fonts/
+    └── Quicksand/            ← Webfont Quicksand (si import local)

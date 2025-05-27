@@ -1,0 +1,50 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --font-main: "Quicksand", sans-serif;
+
+  --color-bg: #F1F5F9;
+  --color-text: #92A6BB;
+  --color-primary: #63367D;
+  --color-gradient-start: #63367D;
+  --color-gradient-end: #B361E3;
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+
+  user-select: none;
+}
+
+/* Text style for titles and content */
+h1 {
+  font-family: Quicksand;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+h2 {
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+p, span, label, input, button {
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  color: Grey;
+}

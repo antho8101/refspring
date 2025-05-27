@@ -1,0 +1,22 @@
+/* Bouton par défaut */
+.btn {
+  display: flex;
+  padding: 10px 20px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  background: var(--back-color, #F1F5F9);
+  box-shadow: 8px 8px 16px 0px #C9D9E8, -8px -8px 16px 0px #FFF;
+
+  border: none;                  /* <-- manquant */
+  color: var(--color-primary);  /* <-- couleur texte corrigée */
+  font-family: var(--font-main);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Bouton en mode cliqué */
+.btn:active {
+  box-shadow: inset 4px 4px 8px 0px #C9D9E8, inset -4px -4px 8px 0px #FFF;
+  opacity: 0.6; 
+}

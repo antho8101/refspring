@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RefSpring – Dashboard</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="logo-container">
+          <img src="assets/mingcute_link-fill.svg" alt="Logo RefSpring" width="24" height="24" />
+          <span class="logo-text">REFSPRING</span>
+        </div>
+
+        <button class="btn" id="createCampaignBtn">
+          <img src="assets/mingcute_plus-fill.svg" alt="+" width="16" height="16" />
+          Créer une campagne
+        </button>
+
+        <div class="campaign-section">
+          <p class="campaign-title">Campagnes</p>
+
+          <div class="separator"></div>
+
+          <ul class="campaign-list">
+            <li class="campaign-item active">Whitelist Oridium</li>
+            <li class="campaign-item">RefSpring Alpha</li>
+            <li class="campaign-item">Kyora International</li>
+            <li class="campaign-item">HelloWorld</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sidebar-bottom">
+
+        <div class="separator"></div>
+
+        <span class="user-email">contact@refspring.com</span>
+
+        <button class="btn wide-btn" id="createCampaignBtn">
+          <img src="assets/mingcute_open-door-line.svg" alt="+" width="16" height="16" />
+          Se déconnecter
+        </button>
+
+      </div>
+    </aside>
+
+    <main class="dashboard-main">
+      <div class="header-bar">
+        <div class="link-bar">
+          <span class="affiliate-link">https://refspring.app/c/oridium</span>
+          <button class="btn">Send link</button>
+        </div>
+      </div>
+
+      <div class="stats-section">
+        <div class="stat-card">
+          <h2>Nombre d’affiliés</h2>
+          <span>2</span>
+        </div>
+        <div class="stat-card">
+          <h2>Total clics</h2>
+          <span>38</span>
+        </div>
+        <div class="stat-card">
+          <h2>Total paiements</h2>
+          <span>41</span>
+        </div>
+        <div class="stat-card">
+          <h2>Taux de conversion</h2>
+          <span>26%</span>
+        </div>
+        <div class="stat-card">
+          <h2>Total CA généré</h2>
+          <span>1950 €</span>
+        </div>
+      </div>
+
+      <div class="table-section">
+        <table>
+          <thead>
+            <tr>
+              <th>Affilié</th>
+              <th>Produit</th>
+              <th>Clics</th>
+              <th>Paiements</th>
+              <th>CA</th>
+              <th>Commission</th>
+              <th>Détail</th>
+            </tr>
+          </thead>
+          <tbody id="affiliatesTable">
+            <!-- lignes JS -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
