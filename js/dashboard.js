@@ -34,3 +34,15 @@ if (logoutBtn) {
     }
   });
 }
+
+const link = document.querySelector('.affiliate-link');
+const defaultUrl = "https://refspring.app/c/oridium";
+
+// Boucle de réinjection si une extension le vide
+const observe = new MutationObserver(() => {
+  if (!link.textContent.trim()) {
+    link.textContent = defaultUrl;
+  }
+});
+
+observe.observe(link, { childList: true });

@@ -144,7 +144,6 @@ body {
   flex-direction: column;
   gap: 40px;
 
-  overflow-y: auto;
   max-height: 100%;
 }
 
@@ -153,6 +152,7 @@ body {
   padding: 5px 20px;
   justify-content: space-between;
   align-items: center;
+  min-width: 0;
   flex: 1 0 0;
 
   border-radius: 99px;
@@ -219,4 +219,96 @@ body {
 .table-section td:last-child {
   color: var(--color-primary);
   cursor: pointer;
+}
+
+.header-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  align-self: stretch;
+}
+
+/* Assure une bonne répartition des zones */
+.campaign-title {
+  flex-shrink: 0;
+}
+
+.link-bar {
+  flex: 1;
+  min-width: 0; /* pour autoriser l’ellipsis */
+}
+
+.send-link-btn {
+  flex-shrink: 0;
+}
+
+.campaign-title {
+  color: var(--color-primary);
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.header-bar {
+  display: flex;
+  padding: 5px 20px;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1 0 0;
+  border-radius: 99px;
+  border: 1px solid var(--color-text);
+  background: #fff;
+  gap: 10px;
+}
+
+.link-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0; /* ← garde ça ! */
+  overflow: hidden;
+}
+
+.affiliate-link {
+  flex: 1; /* ← ajoute ça ! */
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-primary);
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.send-link-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-weight: 600;
 }
