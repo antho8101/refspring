@@ -1,7 +1,18 @@
-const supabase = supabase.createClient(
-  'https://kxndsfzccqslmmwshcec.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4bmRzZnpjY3FzbG1td3NoY2VjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgzOTU1NjQsImV4cCI6MjA2Mzk3MTU2NH0.G5_wmNPHF9b_IMADlv-v1sLNjmv5Yw0jEGDKeuDELBE'
-);
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAlHsC-w7Sx18XKJ6dIcxvqj-AUdqkjqSE",
+  authDomain: "refspring-8c3ac.firebaseapp.com",
+  projectId: "refspring-8c3ac",
+  storageBucket: "refspring-8c3ac.firebasestorage.app",
+  messagingSenderId: "519439687826",
+  appId: "1:519439687826:web:c0644e224f4ca23b57864b",
+  measurementId: "G-QNK35Y7EE4"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 const form = document.getElementById('loginForm');
 
@@ -11,21 +22,15 @@ form.addEventListener('submit', async (e) => {
   const email = document.getElementById('email').value.trim();
   const password = document.getElementById('password').value.trim();
 
-  // Tentative de connexion
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-  if (error) {
-    // Si erreur, tenter inscription automatique
-    const { data: signupData, error: signupError } = await supabase.auth.signUp({ email, password });
-
-    if (signupError) {
-      alert("Erreur d'authentification : " + signupError.message);
-    } else {
-      window.location.href = "dashboard.html";
-    }
-  } else {
-    // Connexion réussie
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
     window.location.href = "dashboard.html";
+  } catch (signInError) {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      window.location.href = "dashboard.html";
+    } catch (signUpError) {
+      alert("Erreur : " + signUpError.message);
+    }
   }
 });
-
