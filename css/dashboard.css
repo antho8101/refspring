@@ -142,8 +142,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 40px;
-
+  gap: 20px;
   max-height: 100%;
 }
 
@@ -182,15 +181,34 @@ body {
   box-shadow: 8px 8px 16px 0px #C9D9E8, -8px -8px 16px 0px #FFF;
 }
 
-.stat-card h2 {
-  color: var(--color-primary);
-  margin: 0;
+
+.stat-title,
+.stat-value {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  align-self: stretch;
+  justify-content: flex-end;
 }
 
-.stat-card span {
-  font-size: 24px;
+.stat-title span {
+  color: var(--Grey, #92A6BB);
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.stat-value span {
+  align-self: stretch;
+  color: var(--Main, #63367D);
+  text-align: right;
+  font-family: Quicksand;
+  font-size: 36px;
+  font-style: normal;
   font-weight: 700;
-  color: var(--color-black);
+  line-height: normal;
 }
 
 .table-section table {
@@ -273,18 +291,15 @@ body {
   overflow: hidden;
 }
 
-.affiliate-link {
-  flex: 1; /* ← ajoute ça ! */
-  min-width: 0;
-  white-space: nowrap;
+.campaign-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 16px;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--color-primary);
-  font-family: Quicksand;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
 }
 
 .icon {
@@ -301,14 +316,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 40px;
 }
 
-.send-link-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
+.h2-style {
+  font-size: 16px;
+  font-weight: 700;
   font-family: Quicksand;
-  font-size: 14px;
-  font-weight: 600;
+  background: linear-gradient(90deg, #63367D 0%, #B361E3 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
