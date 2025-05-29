@@ -188,7 +188,6 @@ body {
   align-items: center;
   gap: 5px;
   align-self: stretch;
-  justify-content: flex-end;
 }
 
 .stat-title span {
@@ -209,6 +208,7 @@ body {
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  justify-content: flex-end;
 }
 
 .table-section table {
@@ -327,4 +327,43 @@ body {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.table-section {
+  display: flex;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
+.table-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  flex: 1 0 0;
+}
+
+.table-title {
+  color: var(--Main, #63367D);
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0;
+}
+
+.table-value {
+  color: var(--Grey, #92A6BB);
+  font-family: Quicksand;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.copy-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
 }
