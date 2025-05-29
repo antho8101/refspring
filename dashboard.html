@@ -30,169 +30,28 @@
 
         <div class="campaign-section">
           <p class="campaign-title">Campagnes</p>
-
           <div class="separator"></div>
-
-          <ul class="campaign-list">
-            <li class="campaign-item active">Whitelist Oridium</li>
-            <li class="campaign-item">RefSpring Alpha</li>
-            <li class="campaign-item">Kyora International</li>
-            <li class="campaign-item">HelloWorld</li>
-          </ul>
+          <ul class="campaign-list" id="campaign-list"></ul>
         </div>
       </div>
 
       <div class="sidebar-bottom">
-
         <div class="separator"></div>
-
         <span class="user-email">contact@refspring.com</span>
-
         <button class="btn wide-btn" id="logoutBtn">
           <img src="assets/mingcute_open-door-line.svg" alt="Se déconnecter" width="16" height="16" />
           Se déconnecter
         </button>
-
       </div>
     </aside>
 
-    <main class="dashboard-main">
-      <div class="header-bar-container">
-        <h2 class="campaign-title">Whitelist Oridium</h2>
+    <main class="dashboard-main" id="dashboard-main">
+  <!-- Dynamique : stat bloc ou message vide -->
+</main>
 
-          <div class="link-bar">
-            <input type="text" class="campaign-link" value="https://refspring.app/c/oridium" readonly />
-            <img src="assets/mingcute_copy-2-line.svg" alt="Copier le lien" class="icon copy-icon" id="copy-dashboard-link-btn" />
-          </div>
-
-        <button class="btn">
-          <img src="assets/mingcute_gear.svg" alt="Paramètres" />
-        </button>
-
-        <button class="btn add-affiliate-btn">
-          <span class="h2-style">Ajouter un affilié</span>
-        </button>
-
-        <button class="btn send-link-btn">
-          <img src="assets/mingcute_send-plane-line.svg" alt="Envoyer le lien" />
-          <span class="h2-style">Envoyer le lien</span>
-        </button>
-
-      </div>
-
-      <div class="separator"></div>
-
-      <div class="stats-section">
-
-        <div class="stat-card">
-          <div class="stat-title">
-            <img src="assets/mingcute_seal-line.svg" alt="Icône Affiliés" width="16" height="16" />
-            <span>Nombre d’affiliés</span>
-          </div>
-          <div class="stat-value">
-            <span>2</span>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-title">
-            <img src="assets/mingcute_inspect-line.svg" alt="Icône Affiliés" width="16" height="16" />
-            <span>Total clics</span>
-          </div>
-          <div class="stat-value">
-            <span>38</span>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-title">
-            <img src="assets/mingcute_bank-card-line.svg" alt="Icône Affiliés" width="16" height="16" />
-            <span>Total paiements</span>
-          </div>
-          <div class="stat-value">
-            <span>10</span>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-title">
-            <img src="assets/mingcute_aiming-line.svg" alt="Icône Affiliés" width="16" height="16" />
-            <span>Taux de conversion</span>
-          </div>
-          <div class="stat-value">
-            <span>26%</span>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-title">
-            <img src="assets/mingcute_pig-money-line.svg" alt="Icône Affiliés" width="16" height="16" />
-            <span>Total CA généré</span>
-          </div>
-          <div class="stat-value">
-            <span>1950€</span>
-          </div>
-        </div>
-      
-      </div>
-
-      <div class="table-section">
-  <div class="table-col">
-    <p class="table-title">Affilié</p>
-    <div class="separator"></div>
-    <div class="table-value">
-      <img src="assets/mingcute_copy-2-line.svg" alt="Copier le lien affilié" class="icon copy-icon" />
-      <span>@tonyboss</span>
-    </div>
-  </div>
-
-  <div class="table-col">
-    <p class="table-title">Produit</p>
-    <div class="separator"></div>
-    <div class="table-value">
-      <span>Oridium Token</span>
-    </div>
-  </div>
-
-  <div class="table-col">
-    <p class="table-title">Clics</p>
-    <div class="separator"></div>
-    <div class="table-value">
-      <span>38</span>
-    </div>
-  </div>
-
-  <div class="table-col">
-    <p class="table-title">Paiements</p>
-    <div class="separator"></div>
-    <div class="table-value">
-      <span>41</span>
-    </div>
-  </div>
-
-  <div class="table-col">
-    <p class="table-title">CA généré</p>
-    <div class="separator"></div>
-    <div class="table-value">
-      <span>1950 €</span>
-    </div>
-  </div>
-
-  <div class="table-col">
-    <p class="table-title">Commission</p>
-    <div class="separator"></div>
-    <div class="table-value">
-      <span>312 €</span>
-    </div>
-  </div>
-</div>
-
-    </main>
   </div>
 
   <!-- Conteneur de modale -->
-<div id="modalContainer" class="modal-overlay"></div>
-
-
+  <div id="modalContainer" class="modal-overlay"></div>
 </body>
 </html>

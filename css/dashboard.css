@@ -437,3 +437,17 @@ body {
   outline: none;
   min-width: 0;
 }
+
+#empty-campaign-container {
+  text-align: center;
+}
+
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  gap: 20px;
+}
