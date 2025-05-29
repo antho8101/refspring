@@ -48,3 +48,29 @@ p, span, label, input, button {
   line-height: normal;
   color: Grey;
 }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: var(--color-white);
+  padding: 30px;
+  border-radius: 20px;
+  width: 500px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#modalContainer {
+  display: none;
+}

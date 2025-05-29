@@ -14,7 +14,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// 🔐 Protection : rediriger si non connecté
+// 🔐 Redirection si utilisateur non connecté
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "index.html";
@@ -23,7 +23,6 @@ onAuthStateChanged(auth, (user) => {
 
 // 🔓 Déconnexion
 const logoutBtn = document.getElementById("logoutBtn");
-
 if (logoutBtn) {
   logoutBtn.addEventListener("click", async () => {
     try {
@@ -35,14 +34,112 @@ if (logoutBtn) {
   });
 }
 
-const link = document.querySelector('.affiliate-link');
+// 🔁 Réinjection du lien si bloqué
+const link = document.querySelector('.campaign-link');
 const defaultUrl = "https://refspring.app/c/oridium";
 
-// Boucle de réinjection si une extension le vide
-const observe = new MutationObserver(() => {
-  if (!link.textContent.trim()) {
-    link.textContent = defaultUrl;
-  }
-});
+if (link) {
+  const observer = new MutationObserver(() => {
+    if (!link.textContent.trim()) {
+      link.textContent = defaultUrl;
+    }
+  });
+  observer.observe(link, { childList: true });
+} else {
+  console.warn("⚠️ Élément '.affiliate-link' introuvable. Skip MutationObserver.");
+}
 
-observe.observe(link, { childList: true });
+// 🟢 Ouverture modale
+const createBtn = document.getElementById("createCampaignBtn");
+if (createBtn) {
+  createBtn.addEventListener("click", openCreateCampaignModal);
+}
+
+async function openCreateCampaignModal() {
+  console.log("🟣 Clic sur le bouton 'Créer une campagne'");
+  const modalContainer = document.getElementById("modalContainer");
+
+  try {
+    const response = await fetch("modals/create-campaign.html");
+    const html = await response.text();
+    modalContainer.innerHTML = html;
+    modalContainer.style.display = "flex";
+
+    const step1 = modalContainer.querySelector(".step-1");
+    const step2 = modalContainer.querySelector(".step-2");
+
+    if (step1 && step2) {
+      step1.style.display = "flex";
+      step2.style.display = "none";
+
+      const nextBtn = modalContainer.querySelector("#next-step-btn");
+      nextBtn.addEventListener("click", () => {
+        step1.style.display = "none";
+        step2.style.display = "flex";
+
+        // ⬇️ Bouton Terminer désormais visible → on peut l'écouter ici
+        const finishBtn = modalContainer.querySelector("#finish-btn");
+        if (finishBtn) {
+          finishBtn.addEventListener("click", () => {
+            modalContainer.innerHTML = "";
+            modalContainer.style.display = "none";
+          });
+        }
+      });
+    }
+
+    modalContainer.addEventListener("click", (e) => {
+      if (e.target === modalContainer) {
+        modalContainer.innerHTML = "";
+        modalContainer.style.display = "none";
+      }
+    });
+
+    const copyBtn = modalContainer.querySelector("#copy-integration-btn");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", () => {
+        const code = modalContainer.querySelector("#integration-code");
+        code.select();
+        document.execCommand("copy");
+        copyBtn.textContent = "Copié ! ✅";
+        setTimeout(() => {
+          copyBtn.innerHTML = `<img src="../assets/mingcute_copy-2-line.svg" width="16" height="16" /> Copier`;
+        }, 2000);
+      });
+    }
+
+    const copyLinkBtn = modalContainer.querySelector("#copy-link-btn");
+    if (copyLinkBtn) {
+      copyLinkBtn.addEventListener("click", () => {
+        const linkInput = modalContainer.querySelector("#generated-link");
+        const range = document.createRange();
+        range.selectNode(linkInput);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand("copy");
+        copyLinkBtn.textContent = "Copié ! ✅";
+        setTimeout(() => {
+          copyLinkBtn.innerHTML = `<img src="../assets/mingcute_copy-2-line.svg" width="16" height="16" /> Copier`;
+        }, 2000);
+      });
+    }
+
+  } catch (error) {
+    console.error("Erreur lors du chargement de la modale :", error);
+  }
+}
+
+const copyDashboardLinkBtn = document.getElementById("copy-dashboard-link-btn");
+const campaignLinkInput = document.querySelector(".campaign-link");
+
+if (copyDashboardLinkBtn && campaignLinkInput) {
+  copyDashboardLinkBtn.addEventListener("click", () => {
+    campaignLinkInput.select();
+    document.execCommand("copy");
+    copyDashboardLinkBtn.src = "assets/mingcute_check-fill.svg";
+
+    setTimeout(() => {
+      copyDashboardLinkBtn.src = "assets/mingcute_copy-2-line.svg";
+    }, 2000);
+  });
+}

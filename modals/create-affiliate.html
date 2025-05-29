@@ -1,0 +1,55 @@
+<div class="modal-content step-1">
+  <h1>Ajouter un affilié</h1>
+
+  <div class="form-group">
+    <label for="campaign-select">Campagne</label>
+    <select id="campaign-select">
+      <option value="">-- Sélectionner une campagne --</option>
+      <option value="oridium">Whitelist Oridium</option>
+      <option value="kyora">Kyora International</option>
+      <option value="helloworld">HelloWorld</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="affiliate-username">Identifiant de l’affilié</label>
+    <input type="text" id="affiliate-username" placeholder="Ex : tonyboss" />
+  </div>
+
+  <div class="form-group">
+    <label for="commission-type">Type de commission</label>
+    <select id="commission-type">
+      <option value="percent">Pourcentage</option>
+      <option value="fixed">Montant fixe</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="commission-value">Montant ou pourcentage</label>
+    <input type="number" id="commission-value" placeholder="Ex : 10 ou 25" />
+  </div>
+
+  <div class="form-footer">
+    <button class="btn" id="generate-link-btn">
+      Générer le lien affilié
+    </button>
+  </div>
+</div>
+
+<div class="modal-content step-2" style="display: none;">
+  <h1>Affilié ajouté</h1>
+
+  <div class="form-group">
+    <label>Lien affilié généré :</label>
+    <div class="link-bar">
+      <span class="campaign-link" id="affiliate-link">https://refspring.app/c/oridium?ref=tonyboss</span>
+      <img src="../assets/mingcute_copy-2-line.svg" alt="Copier" class="copy-icon" id="copy-affiliate-link-btn" />
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn" id="close-affiliate-modal-btn">
+      Terminer
+    </button>
+  </div>
+</div>

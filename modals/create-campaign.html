@@ -1,0 +1,66 @@
+<div class="modal-content step-1">
+  <h1>Créer une campagne</h1>
+
+  <div class="form-group">
+    <label for="campaign-name">Nom de la campagne</label>
+    <input type="text" id="campaign-name" placeholder="Ex : Whitelist Oridium" />
+  </div>
+
+  <div class="form-group">
+    <label for="redirect-url">Page d’atterrissage client</label>
+    <input type="url" id="redirect-url" placeholder="https://getoridium.com/market" />
+  </div>
+
+  <div class="form-group checkbox-group">
+    <label><input type="checkbox" id="track-clicks" checked /> Activer le suivi des clics</label>
+    <label><input type="checkbox" id="track-payments" checked /> Activer le suivi des paiements</label>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn" id="next-step-btn">
+      Continuer
+    </button>
+  </div>
+</div>
+
+<div class="modal-content step-2" style="display: none;">
+  <h1>Campagne créée</h1>
+
+  <div class="form-group">
+    <label>Votre lien de campagne :</label>
+    <div class="link-wrapper">
+      <input
+        type="text"
+        id="generated-link"
+        value="https://refspring.app/c/slug-campagne"
+        readonly
+      />
+      <button class="btn copy-btn" id="copy-link-btn">
+        <img src="../assets/mingcute_copy-2-line.svg" alt="Copier" width="16" height="16" />
+        Copier
+      </button>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Code d’intégration :</label>
+    <div class="code-wrapper">
+      <textarea readonly id="integration-code">
+<script src="https://refspring.app/sdk.js"></script>
+<script>
+  RefSpring.init({
+    campaign: "slug-campagne"
+  });
+</script>
+      </textarea>
+      <button class="btn copy-btn" id="copy-integration-btn">
+        <img src="../assets/mingcute_copy-2-line.svg" alt="Copier" width="16" height="16" />
+        Copier
+      </button>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn" id="finish-btn">Terminer</button>
+  </div>
+</div>

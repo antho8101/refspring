@@ -367,3 +367,73 @@ body {
   height: 16px;
   cursor: pointer;
 }
+
+.code-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#integration-code {
+  width: 100%;
+  height: 140px;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  resize: none;
+  color: #333;
+  box-shadow: inset 4px 4px 8px #C9D9E8, inset -4px -4px 8px #FFF;
+}
+
+.copy-btn {
+  align-self: flex-end;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: var(--back-color, #F1F5F9);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 4px 4px 8px #C9D9E8, -4px -4px 8px #FFF;
+}
+
+.link-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+#generated-link {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  font-family: Quicksand;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  box-shadow: inset 4px 4px 8px #C9D9E8, inset -4px -4px 8px #FFF;
+}
+
+.link-bar input {
+  border: none;
+  background: transparent;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--color-primary);
+  flex: 1;
+  outline: none;
+  min-width: 0;
+}

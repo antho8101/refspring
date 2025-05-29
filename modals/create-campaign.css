@@ -1,0 +1,87 @@
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 8px 8px 16px #C9D9E8, -8px -8px 16px #FFF;
+  max-width: 500px;
+  margin: auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input, select {
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 5px #C9D9E8, inset -2px -2px 5px #FFF;
+  background: var(--color-bg);
+  color: var(--color-primary);
+}
+
+input::placeholder {
+  color: #bbb;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.step-2 {
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.link-bar {
+  display: flex;
+  padding: 10px 20px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 99px;
+  border: 1px solid var(--Grey, #92A6BB);
+  background: #fff;
+  gap: 10px;
+}
+
+.campaign-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.copy-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.code-box {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  font-family: monospace;
+  font-size: 14px;
+  color: var(--color-black);
+  white-space: pre-wrap;
+  box-shadow: 8px 8px 16px 0px #C9D9E8, -8px -8px 16px 0px #FFF;
+  border: 1px solid var(--Grey, #92A6BB);
+}

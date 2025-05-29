@@ -11,6 +11,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
   </style>
   <script type="module" src="js/dashboard.js"></script>
+  <script type="module" src="js/affiliate.js"></script>
 </head>
 <body>
   <div class="dashboard-container">
@@ -60,12 +61,16 @@
         <h2 class="campaign-title">Whitelist Oridium</h2>
 
           <div class="link-bar">
-            <span class="campaign-link">https://refspring.app/c/oridium</span>
-            <img src="assets/mingcute_copy-2-line.svg" alt="Copier le lien" class="icon copy-icon" />
-        </div>
+            <input type="text" class="campaign-link" value="https://refspring.app/c/oridium" readonly />
+            <img src="assets/mingcute_copy-2-line.svg" alt="Copier le lien" class="icon copy-icon" id="copy-dashboard-link-btn" />
+          </div>
 
         <button class="btn">
           <img src="assets/mingcute_gear.svg" alt="Paramètres" />
+        </button>
+
+        <button class="btn add-affiliate-btn">
+          <span class="h2-style">Ajouter un affilié</span>
         </button>
 
         <button class="btn send-link-btn">
@@ -184,6 +189,10 @@
 
     </main>
   </div>
+
+  <!-- Conteneur de modale -->
+<div id="modalContainer" class="modal-overlay"></div>
+
 
 </body>
 </html>
