@@ -56,7 +56,7 @@ const dashboardMain = document.querySelector(".dashboard-main");
 async function renderCampaigns() {
   if (!campaignList) return;
   campaignList.innerHTML = "";
-  dashboardMain.innerHTML = ""; // Nettoyage
+  dashboardMain.innerHTML = ""; // On vide tout au début
 
   const q = query(collection(db, "campaigns"), orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
@@ -81,41 +81,132 @@ async function renderCampaigns() {
     `;
 
     dashboardMain.appendChild(emptyContainer);
-
     document.getElementById("createCampaignBtnEmpty").addEventListener("click", openCreateCampaignModal);
     return;
   }
 
-  // Affichage des blocs du dashboard
-  dashboardMain.innerHTML = `
-    <div class="header-bar-container"> ... </div>
-    <div class="separator"></div>
-    <div class="stats-section"> ... </div>
-    <div class="table-section"> ... </div>
-  `;
+  // ✅ NE PAS afficher le dashboard ici. On attend un clic utilisateur.
+  // Donc PAS de dashboardMain.innerHTML ici.
 
-  // Remplir le menu de gauche avec les campagnes
-  snapshot.forEach((docSnap, index) => {
+  // Remplir la liste des campagnes (menu de gauche)
+  snapshot.forEach((docSnap) => {
     const li = document.createElement("li");
     li.className = "campaign-item";
-    if (index === 0) li.classList.add("active");
     li.textContent = docSnap.data().name;
     li.dataset.id = docSnap.id;
-    li.addEventListener("click", () => selectCampaign(docSnap.id, docSnap.data().name));
-    campaignList.appendChild(li);
 
-    if (index === 0) {
+    li.addEventListener("click", () => {
+      // Retirer la classe active de tous les éléments
+      document.querySelectorAll(".campaign-item").forEach(el => el.classList.remove("active"));
+      li.classList.add("active");
       selectCampaign(docSnap.id, docSnap.data().name);
-    }
+    });
+
+    campaignList.appendChild(li);
   });
 }
 
 async function selectCampaign(campaignId, campaignName) {
-  campaignTitle.textContent = campaignName;
-  const campaignLinkInput = document.querySelector(".campaign-link");
-  if (campaignLinkInput) {
-    campaignLinkInput.value = `https://refspring.app/c/${campaignName.toLowerCase().replace(/\s+/g, '-')}`;
-  }
+  if (!dashboardMain) return;
+
+  dashboardMain.innerHTML = `
+    <div class="header-bar-container">
+      <h2 class="campaign-title">${campaignName}</h2>
+
+      <div class="link-bar">
+        <input type="text" class="campaign-link" value="https://refspring.app/c/${campaignName.toLowerCase().replace(/\s+/g, '-')}" readonly />
+        <img src="assets/mingcute_copy-2-line.svg" alt="Copier le lien" class="icon copy-icon" id="copy-dashboard-link-btn" />
+      </div>
+
+      <button class="btn">
+        <img src="assets/mingcute_gear.svg" alt="Paramètres" />
+      </button>
+
+      <button class="btn add-affiliate-btn">
+        <span class="h2-style">Ajouter un affilié</span>
+      </button>
+
+      <button class="btn send-link-btn">
+        <img src="assets/mingcute_send-plane-line.svg" alt="Envoyer le lien" />
+        <span class="h2-style">Envoyer le lien</span>
+      </button>
+    </div>
+
+    <div class="separator"></div>
+
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-title">
+          <img src="assets/mingcute_seal-line.svg" />
+          <span>Nombre d’affiliés</span>
+        </div>
+        <div class="stat-value"><span>-</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">
+          <img src="assets/mingcute_inspect-line.svg" />
+          <span>Total clics</span>
+        </div>
+        <div class="stat-value"><span>-</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">
+          <img src="assets/mingcute_bank-card-line.svg" />
+          <span>Total paiements</span>
+        </div>
+        <div class="stat-value"><span>-</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">
+          <img src="assets/mingcute_aiming-line.svg" />
+          <span>Taux de conversion</span>
+        </div>
+        <div class="stat-value"><span>-</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">
+          <img src="assets/mingcute_pig-money-line.svg" />
+          <span>Total CA généré</span>
+        </div>
+        <div class="stat-value"><span>-</span></div>
+      </div>
+    </div>
+
+    <div class="table-section">
+      <div class="table-col">
+        <p class="table-title">Affilié</p>
+        <div class="separator"></div>
+        <div class="table-value placeholder"><span>-</span></div>
+      </div>
+      <div class="table-col">
+        <p class="table-title">Produit</p>
+        <div class="separator"></div>
+        <div class="table-value placeholder"><span>-</span></div>
+      </div>
+      <div class="table-col">
+        <p class="table-title">Clics</p>
+        <div class="separator"></div>
+        <div class="table-value placeholder"><span>-</span></div>
+      </div>
+      <div class="table-col">
+        <p class="table-title">Paiements</p>
+        <div class="separator"></div>
+        <div class="table-value placeholder"><span>-</span></div>
+      </div>
+      <div class="table-col">
+        <p class="table-title">CA généré</p>
+        <div class="separator"></div>
+        <div class="table-value placeholder"><span>-</span></div>
+      </div>
+      <div class="table-col">
+        <p class="table-title">Commission</p>
+        <div class="separator"></div>
+        <div class="table-value placeholder"><span>-</span></div>
+      </div>
+    </div>
+  `;
+
+  document.querySelector(".add-affiliate-btn")?.addEventListener("click", openAddAffiliateModal);
 }
 
 const createBtn = document.getElementById("createCampaignBtn");
@@ -140,18 +231,50 @@ async function openCreateCampaignModal() {
 
       const nextBtn = modalContainer.querySelector("#next-step-btn");
       nextBtn.addEventListener("click", () => {
+        const name = modalContainer.querySelector("#campaign-name")?.value.trim();
+        const url = modalContainer.querySelector("#redirect-url")?.value.trim();
+
+        if (!name || !url) {
+          alert("Merci de remplir tous les champs.");
+          return;
+        }
+
+        // Générer le slug
+        const slug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
+
+        // Injecter le lien et le script dans la deuxième étape
+        modalContainer.querySelector("#generated-link").value = `https://refspring.app/c/${slug}`;
+        modalContainer.querySelector("#integration-code").value = 
+`<script src="https://refspring.app/sdk.js"></script>
+<script>
+  RefSpring.init({
+    campaign: "${slug}"
+  });
+</script>`;
+
         step1.style.display = "none";
         step2.style.display = "flex";
 
-        const finishBtn = modalContainer.querySelector("#finish-btn");
-        if (finishBtn) {
-          finishBtn.addEventListener("click", async () => {
-            await createCampaign(modalContainer);
-            modalContainer.innerHTML = "";
-            modalContainer.style.display = "none";
-            await renderCampaigns();
-          });
-        }
+        // Ajouter fonction copier
+        modalContainer.querySelector("#copy-link-btn")?.addEventListener("click", () => {
+          const input = modalContainer.querySelector("#generated-link");
+          input.select();
+          document.execCommand("copy");
+        });
+
+        modalContainer.querySelector("#copy-integration-btn")?.addEventListener("click", () => {
+          const textarea = modalContainer.querySelector("#integration-code");
+          textarea.select();
+          document.execCommand("copy");
+        });
+
+        // Bouton "Terminer"
+        modalContainer.querySelector("#finish-btn")?.addEventListener("click", async () => {
+          await createCampaign(modalContainer, slug, url);
+          modalContainer.innerHTML = "";
+          modalContainer.style.display = "none";
+          await renderCampaigns();
+        });
       });
     }
 
@@ -168,14 +291,14 @@ async function openCreateCampaignModal() {
 
 async function createCampaign(modalContainer) {
   const nameInput = modalContainer.querySelector("#campaign-name");
-  const commissionInput = modalContainer.querySelector("#commission-amount");
-  const typeSelect = modalContainer.querySelector("#commission-type");
+  const urlInput = modalContainer.querySelector("#redirect-url");
+  const trackClicks = modalContainer.querySelector("#track-clicks")?.checked;
+  const trackPayments = modalContainer.querySelector("#track-payments")?.checked;
 
   const name = nameInput?.value.trim();
-  const commission = parseFloat(commissionInput?.value);
-  const commissionType = typeSelect?.value;
+  const redirectUrl = urlInput?.value.trim();
 
-  if (!name || isNaN(commission) || !commissionType) {
+  if (!name || !redirectUrl) {
     alert("Merci de remplir tous les champs.");
     return;
   }
@@ -183,8 +306,9 @@ async function createCampaign(modalContainer) {
   try {
     await addDoc(collection(db, "campaigns"), {
       name,
-      commission,
-      commissionType,
+      redirectUrl,
+      trackClicks,
+      trackPayments,
       createdAt: serverTimestamp(),
     });
     console.log("✅ Campagne créée avec succès !");
@@ -192,4 +316,91 @@ async function createCampaign(modalContainer) {
     console.error("❌ Erreur lors de la création de la campagne :", err);
     alert("Erreur lors de la création de la campagne.");
   }
+}
+
+async function openAddAffiliateModal() {
+  const modalContainer = document.getElementById("modalContainer");
+  if (!modalContainer) return;
+
+  const res = await fetch("modals/create-affiliate.html");
+  const html = await res.text();
+  modalContainer.innerHTML = html;
+  modalContainer.style.display = "flex";
+  modalContainer.classList.add("active");
+
+  // 🧠 Remplir dynamiquement la liste des campagnes
+  const selectEl = modalContainer.querySelector("#campaign-select");
+  if (selectEl) {
+    const q = query(collection(db, "campaigns"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const option = document.createElement("option");
+      option.value = data.name.toLowerCase().replace(/\s+/g, '-'); // valeur utilisée dans l'URL
+      option.textContent = data.name; // affichage utilisateur
+      selectEl.appendChild(option);
+    });
+  }
+
+  const generateBtn = modalContainer.querySelector("#generate-link-btn");
+  if (!generateBtn) return;
+
+  generateBtn.addEventListener("click", async () => {
+    const campaign = modalContainer.querySelector("#campaign-select")?.value;
+    const username = modalContainer.querySelector("#affiliate-username")?.value.trim();
+    const type = modalContainer.querySelector("#commission-type")?.value;
+    const value = modalContainer.querySelector("#commission-value")?.value.trim();
+
+    if (!campaign || !username || !type || !value) {
+      alert("Merci de remplir tous les champs.");
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "affiliates"), {
+        campaign,
+        username,
+        commissionType: type,
+        commissionValue: Number(value),
+        createdAt: serverTimestamp(),
+      });
+
+      const affiliateLink = `https://refspring.app/c/${campaign}?ref=${username}`;
+      modalContainer.querySelector("#affiliate-link").textContent = affiliateLink;
+
+      modalContainer.querySelector(".step-1").style.display = "none";
+      modalContainer.querySelector(".step-2").style.display = "flex";
+
+      const copyBtn = modalContainer.querySelector("#copy-affiliate-link-btn");
+      if (copyBtn) {
+        copyBtn.addEventListener("click", () => {
+          navigator.clipboard.writeText(affiliateLink);
+        });
+      }
+
+      const closeBtn = modalContainer.querySelector("#close-affiliate-modal-btn");
+      if (closeBtn) {
+        closeBtn.addEventListener("click", () => {
+          modalContainer.classList.remove("active");
+          modalContainer.innerHTML = "";
+          document.querySelector(".dashboard-main")?.classList.remove("blurred");
+        });
+      }
+
+    } catch (err) {
+      console.error("Erreur lors de la création de l’affilié :", err);
+      alert("Erreur lors de la création de l’affilié.");
+    }
+  });
+
+  // Clique en dehors de la modale
+  modalContainer.addEventListener("click", (e) => {
+    if (e.target === modalContainer || e.target.classList.contains("close-modal")) {
+      modalContainer.classList.remove("active");
+      modalContainer.innerHTML = "";
+      modalContainer.style.display = "none";
+      document.querySelector(".dashboard-main")?.classList.remove("blurred");
+    }
+  });
 }
