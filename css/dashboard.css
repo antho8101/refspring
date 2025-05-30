@@ -451,3 +451,34 @@ body {
   padding: 40px;
   gap: 20px;
 }
+
+#affiliate-link {
+  background: white !important;
+  color: #333 !important;
+  padding: 8px 12px !important;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 100px; /* ← ou plus selon ton layout */
+  flex-shrink: 1;
+  width: 100%;
+}
+
+.campaign-link {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.modal-content.step-2 #affiliate-link {
+  overflow: auto !important;
+  text-overflow: initial !important;
+  white-space: normal !important;
+  color: #333 !important;
+  background: #fff !important;
+  height: auto !important;
+  min-height: 32px !important;
+  line-height: 1.4 !important;
+  padding: 8px 12px !important;
+  display: block !important;
+}

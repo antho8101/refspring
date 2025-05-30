@@ -34,7 +34,7 @@ document.addEventListener("click", async (e) => {
       modalContainer.innerHTML = html;
       modalContainer.style.display = "flex";
 
-      // 🟢 Charger dynamiquement les campagnes depuis Firestore
+      // Charger les campagnes
       const campaignSelect = modalContainer.querySelector("#campaign-select");
       if (campaignSelect) {
         const campaignsSnapshot = await getDocs(query(collection(db, "campaigns")));
@@ -53,6 +53,7 @@ document.addEventListener("click", async (e) => {
         const generateBtn = modalContainer.querySelector("#generate-link-btn");
         const closeBtn = modalContainer.querySelector("#close-affiliate-modal-btn");
         const copyBtn = modalContainer.querySelector("#copy-affiliate-link-btn");
+        const finishBtn = modalContainer.querySelector("#finish-affiliate-modal-btn"); // 👈 ici
 
         if (generateBtn) {
           generateBtn.addEventListener("click", async () => {
@@ -84,19 +85,18 @@ document.addEventListener("click", async (e) => {
               return;
             }
 
+            const waitUntilInputVisible = setInterval(() => {
+              const input = modalContainer.querySelector("#affiliate-link");
+              if (input && input.offsetHeight > 0 && input.offsetParent !== null) {
+                input.value = affiliateLink;
+                input.setAttribute("value", affiliateLink);
+                console.log("✅ Lien injecté dans le champ avec succès");
+                clearInterval(waitUntilInputVisible);
+              }
+            }, 50);
+
             step1.style.display = "none";
             step2.style.display = "flex";
-
-            // ✅ Correction ici
-            setTimeout(() => {
-              const linkEl = modalContainer.querySelector("#affiliate-link");
-              if (!linkEl) {
-                console.error("❌ Élément #affiliate-link introuvable !");
-              } else {
-                linkEl.value = affiliateLink;
-                console.log("✅ Lien inséré dans l’input avec succès");
-              }
-            }, 10);
           });
         }
 
@@ -119,6 +119,15 @@ document.addEventListener("click", async (e) => {
           closeBtn.addEventListener("click", () => {
             modalContainer.innerHTML = "";
             modalContainer.style.display = "none";
+            document.body.classList.remove("blurred"); // 👈 bonus si tu appliques une classe blur
+          });
+        }
+
+        if (finishBtn) {
+          finishBtn.addEventListener("click", () => {
+            modalContainer.innerHTML = "";
+            modalContainer.style.display = "none";
+            document.body.classList.remove("blurred"); // 👈 ENFIN ici !
           });
         }
 
@@ -126,6 +135,7 @@ document.addEventListener("click", async (e) => {
           if (e.target === modalContainer) {
             modalContainer.innerHTML = "";
             modalContainer.style.display = "none";
+            document.body.classList.remove("blurred");
           }
         });
       }, 0);
