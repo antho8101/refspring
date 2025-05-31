@@ -482,3 +482,38 @@ body {
   padding: 8px 12px !important;
   display: block !important;
 }
+
+/* --- Modal Overlay --- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* --- Modal Content --- */
+.modal-content {
+  border-radius: 12px;
+  width: 800px;
+  text-align: center;
+}
+
+/* --- Settings List --- */
+.settings-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.settings-list li {
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.settings-list li:hover {
+  background-color: #f2f2f2;
+}

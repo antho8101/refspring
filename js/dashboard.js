@@ -6,8 +6,9 @@ import {
   addDoc,
   serverTimestamp,
   getDocs,
+  deleteDoc,
+  updateDoc,
   doc,
-  getDoc,
   query,
   orderBy
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
@@ -118,9 +119,10 @@ async function selectCampaign(campaignId, campaignName) {
         <img src="assets/mingcute_copy-2-line.svg" alt="Copier le lien" class="icon copy-icon" id="copy-dashboard-link-btn" />
       </div>
 
-      <button class="btn">
+      <button class="btn" id="settings-btn">
         <img src="assets/mingcute_gear.svg" alt="Paramètres" />
       </button>
+
 
       <button class="btn add-affiliate-btn">
         <span class="h2-style">Ajouter un affilié</span>
@@ -206,12 +208,48 @@ async function selectCampaign(campaignId, campaignName) {
     </div>
   `;
 
+  document.querySelector("#settings-btn")?.addEventListener("click", () => {
+  openSettingsModal(campaignId, campaignName);
+});
   document.querySelector(".add-affiliate-btn")?.addEventListener("click", openAddAffiliateModal);
-}
 
-const createBtn = document.getElementById("createCampaignBtn");
-if (createBtn) {
-  createBtn.addEventListener("click", openCreateCampaignModal);
+  // 🟢 Injecter les affiliés de cette campagne dans le tableau
+  const affiliatesQuery = query(collection(db, "affiliates"));
+  const snapshot = await getDocs(affiliatesQuery);
+
+  // Filtrer les affiliés de cette campagne
+  const affiliates = snapshot.docs
+    .map(doc => doc.data())
+    .filter(aff => aff.campaign === campaignName.toLowerCase().replace(/\s+/g, '-'));
+
+  if (!affiliates.length) return;
+
+  // Supprimer les placeholders
+  document.querySelectorAll(".table-value.placeholder").forEach(el => el.remove());
+
+  // Ajouter dynamiquement les lignes du tableau
+  affiliates.forEach(aff => {
+    const row = [
+      aff.username,
+      "—", // Produit (à compléter plus tard)
+      "—", // Clics
+      "—", // Paiements
+      "—", // CA
+      `${aff.commissionValue} ${aff.commissionType === "percentage" ? "%" : "€"}`
+    ];
+
+    const cols = document.querySelectorAll(".table-col");
+    cols.forEach((col, index) => {
+      const div = document.createElement("div");
+      div.className = "table-value";
+      div.textContent = row[index];
+      col.appendChild(div);
+    });
+  });
+
+  // Mettre à jour la stat "Nombre d’affiliés"
+  const statEl = document.querySelectorAll(".stat-card .stat-value span")[0];
+  if (statEl) statEl.textContent = affiliates.length.toString();
 }
 
 async function openCreateCampaignModal() {
@@ -328,7 +366,6 @@ async function openAddAffiliateModal() {
   modalContainer.style.display = "flex";
   modalContainer.classList.add("active");
 
-  // 🧠 Remplir dynamiquement la liste des campagnes
   const selectEl = modalContainer.querySelector("#campaign-select");
   if (selectEl) {
     const q = query(collection(db, "campaigns"), orderBy("createdAt", "desc"));
@@ -337,8 +374,8 @@ async function openAddAffiliateModal() {
     snapshot.forEach((docSnap) => {
       const data = docSnap.data();
       const option = document.createElement("option");
-      option.value = data.name.toLowerCase().replace(/\s+/g, '-'); // valeur utilisée dans l'URL
-      option.textContent = data.name; // affichage utilisateur
+      option.value = data.name.toLowerCase().replace(/\s+/g, '-');
+      option.textContent = data.name;
       selectEl.appendChild(option);
     });
   }
@@ -394,7 +431,6 @@ async function openAddAffiliateModal() {
     }
   });
 
-  // Clique en dehors de la modale
   modalContainer.addEventListener("click", (e) => {
     if (e.target === modalContainer || e.target.classList.contains("close-modal")) {
       modalContainer.classList.remove("active");
@@ -403,4 +439,157 @@ async function openAddAffiliateModal() {
       document.querySelector(".dashboard-main")?.classList.remove("blurred");
     }
   });
+}
+
+// ✅ Gestion du bouton paramètres (sans fetch)
+const openBtn = document.getElementById('settings-btn');
+const modal = document.getElementById('settings-modal');
+const closeBtn = modal?.querySelector('.close-modal');
+
+if (openBtn && modal && closeBtn) {
+  openBtn.addEventListener('click', () => {
+    modal.style.display = 'flex';
+  });
+
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  modal.querySelector('#delete-campaign')?.addEventListener('click', () => {
+    if (confirm('Supprimer la campagne ?')) {
+      console.log('Suppression de la campagne...');
+      // TODO: logique réelle
+    }
+  });
+
+  modal.querySelector('#delete-affiliate')?.addEventListener('click', () => {
+    if (confirm('Supprimer un affilié ?')) {
+      console.log('Suppression d’un affilié...');
+      // TODO: logique réelle
+    }
+  });
+}
+
+async function openSettingsModal(campaignId, campaignName) {
+  const modalContainer = document.getElementById("modalContainer");
+  if (!modalContainer) return;
+
+  try {
+    const res = await fetch("modals/settings.html");
+    const html = await res.text();
+    modalContainer.innerHTML = html;
+    modalContainer.style.display = "flex";
+    modalContainer.classList.add("active");
+
+    const currentCampaignSlug = campaignName.toLowerCase().replace(/\s+/g, '-');
+    console.log("🔍 currentCampaignSlug =", currentCampaignSlug);
+    console.log("🔧 campaignId =", campaignId);
+
+    // Fermer la modale
+    const closeBtn = modalContainer.querySelector(".close-modal");
+    closeBtn?.addEventListener("click", () => {
+      modalContainer.innerHTML = "";
+      modalContainer.style.display = "none";
+      modalContainer.classList.remove("active");
+    });
+
+    // 🗑 Supprimer la campagne
+    const deleteCampaignBtn = modalContainer.querySelector("#delete-campaign");
+    deleteCampaignBtn?.addEventListener("click", async () => {
+      if (confirm("Supprimer la campagne ?")) {
+        try {
+          console.log("🔥 Tentative suppression Firestore : campaigns/" + campaignId);
+          await deleteDoc(doc(db, "campaigns", campaignId));
+          alert("Campagne supprimée.");
+          modalContainer.innerHTML = "";
+          modalContainer.style.display = "none";
+          await renderCampaigns();
+        } catch (err) {
+          console.error("❌ Erreur lors de la suppression de la campagne :", err);
+          alert("Erreur lors de la suppression de la campagne.");
+        }
+      }
+    });
+
+    // 🔄 Charger les affiliés liés à cette campagne
+    const affRes = await getDocs(collection(db, "affiliates"));
+    const affiliates = affRes.docs
+      .map(doc => ({ id: doc.id, ...doc.data() }))
+      .filter(aff => aff.campaign === currentCampaignSlug);
+
+    const selectEl = modalContainer.querySelector("#affiliate-select");
+    affiliates.forEach((aff) => {
+      const opt = document.createElement("option");
+      opt.value = aff.id;
+      opt.textContent = aff.username;
+      selectEl.appendChild(opt);
+    });
+
+    // 🪪 Remplir la commission de l’affilié sélectionné
+    selectEl.addEventListener("change", (e) => {
+      const selected = affiliates.find(a => a.id === e.target.value);
+      if (selected) {
+        const value = selected.commissionType === "percentage"
+          ? `${selected.commissionValue}%`
+          : `${selected.commissionValue}`;
+        modalContainer.querySelector("#commission-value").value = value;
+      }
+    });
+
+    // ✏️ Mettre à jour la commission
+    modalContainer.querySelector("#update-affiliate")?.addEventListener("click", async () => {
+      const id = selectEl.value;
+      const val = modalContainer.querySelector("#commission-value").value.trim();
+
+      if (!id || !val) {
+        alert("Merci de sélectionner un affilié et d’entrer une commission.");
+        return;
+      }
+
+      const value = parseFloat(val.replace("%", ""));
+      const type = val.includes("%") ? "percentage" : "fixed";
+
+      try {
+        await updateDoc(doc(db, "affiliates", id), {
+          commissionValue: value,
+          commissionType: type,
+        });
+        alert("Commission mise à jour !");
+      } catch (err) {
+        console.error("❌ Erreur mise à jour commission :", err);
+        alert("Erreur lors de la mise à jour.");
+      }
+    });
+
+    // 🗑 Supprimer un affilié
+    modalContainer.querySelector("#delete-affiliate")?.addEventListener("click", async () => {
+      const id = selectEl.value;
+      if (!id) return alert("Aucun affilié sélectionné.");
+
+      if (confirm("Supprimer cet affilié ?")) {
+        try {
+          await deleteDoc(doc(db, "affiliates", id));
+          alert("Affilié supprimé.");
+          modalContainer.innerHTML = "";
+          modalContainer.style.display = "none";
+          await selectCampaign(campaignId, campaignName);
+        } catch (err) {
+          console.error("❌ Erreur suppression affilié :", err);
+          alert("Erreur lors de la suppression.");
+        }
+      }
+    });
+
+    // Fermer en cliquant hors de la modale
+    modalContainer.addEventListener("click", (e) => {
+      if (e.target === modalContainer) {
+        modalContainer.innerHTML = "";
+        modalContainer.style.display = "none";
+        modalContainer.classList.remove("active");
+      }
+    });
+
+  } catch (error) {
+    console.error("❌ Erreur chargement modale settings :", error);
+  }
 }
